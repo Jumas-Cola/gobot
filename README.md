@@ -16,3 +16,7 @@ Bot for checking for spam in telegram groups
 echo "TOKEN=<YOUR_TELEGRAM_BOT_TOKEN>" > .env
 docker compose up -d
 ```
+
+## Spam database for training classifier
+
+[dbhub.io/Jumas-Cola/spam.db](https://dbhub.io/Jumas-Cola/spam.db)
