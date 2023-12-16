@@ -3,21 +3,14 @@ package main
 import (
 	"fmt"
 	"log"
+	"log/slog"
 	"os"
-	"strings"
 	"time"
 
 	"github.com/Jumas-Cola/gonzofilter"
 	"github.com/joho/godotenv"
 	tele "gopkg.in/telebot.v3"
 )
-
-func escapeString(s string) string {
-	s = strings.ReplaceAll(s, "+", "\\+")
-	s = strings.ReplaceAll(s, "-", "\\-")
-	s = strings.ReplaceAll(s, "#", "\\#")
-	return s
-}
 
 func main() {
 	err := godotenv.Load()
@@ -38,22 +31,18 @@ func main() {
 
 	b.Handle(tele.OnText, func(c tele.Context) error {
 		var (
-			// user = c.Sender()
 			text = c.Text()
 			msg  = c.Message()
 		)
 
-		if len([]rune(text)) < 30 {
+		if len([]rune(text)) < 20 {
 			return nil
 		}
 
 		res := gonzofilter.ClassifyMessage(text, "hamspam.db")
 		if res == "SPAM" {
 			b.Delete(msg)
-			return c.Send(fmt.Sprintf("Mabe spam: ||%s||", escapeString(text)),
-				&tele.SendOptions{
-					ParseMode: tele.ModeMarkdownV2,
-				})
+			slog.Warn("Spam detected: " + text)
 		}
 
 		return nil

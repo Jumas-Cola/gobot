@@ -8,8 +8,11 @@ Bot for checking for spam in telegram groups
 
 ## Usage
 
+1. Put hamspam.db in go-telegram-antispam directory
+
+2. Run bot by docker compose
+
 ```bash
 echo "TOKEN=<YOUR_TELEGRAM_BOT_TOKEN>" > .env
-go build main.go
-./main
+docker compose up -d
 ```
