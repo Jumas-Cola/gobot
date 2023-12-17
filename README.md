@@ -41,8 +41,8 @@ for d in [learn_spam_dir, learn_ham_dir, test_spam_dir, test_ham_dir]:
     if not os.path.exists(d):
         os.makedirs(d)
 
-# 80% for training, 20% for testing
-learn_test_ratio = .8
+# 60% for training, 40% for testing
+learn_test_ratio = .6
 
 rows = sel.fetchall()
 for i, row in enumerate(rows):
