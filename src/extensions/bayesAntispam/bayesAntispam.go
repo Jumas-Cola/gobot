@@ -16,6 +16,8 @@ func GetExtension() BayesAntispam {
 }
 
 func (ba BayesAntispam) RegisterHandlers(b *telebot.Bot) []telebot.Command {
+    // TODO: Добавить команды для включения/выключения, 
+    // сохранять настройки для каждого чата в MongoDB
 	cmds := []telebot.Command{}
 
 	b.Handle(telebot.OnText, func(c telebot.Context) error {
@@ -39,7 +41,3 @@ func (ba BayesAntispam) RegisterHandlers(b *telebot.Bot) []telebot.Command {
 
 	return cmds
 }
-
-// func (ba BayesAntispam) handleHello(c telebot.Context) error {
-//
-// }
