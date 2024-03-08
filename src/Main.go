@@ -1,10 +1,12 @@
 package main
 
 import (
-	"fmt"
+	"gobot/src/db"
 	"gobot/src/extensions"
 	"gobot/src/extensions/bayesAntispam"
 	"gobot/src/extensions/greeter"
+	"gobot/src/extensions/kikVote"
+	"log/slog"
 
 	"log"
 	"os"
@@ -17,7 +19,7 @@ import (
 func main() {
 	err := godotenv.Load()
 	if err != nil {
-		fmt.Println("Error loading .env")
+		slog.Info("Error loading .env")
 	}
 
 	pref := telebot.Settings{
@@ -27,9 +29,11 @@ func main() {
 
 	b, err := telebot.NewBot(pref)
 	if err != nil {
-		log.Fatal(err)
+		slog.Error(err.Error())
 		return
 	}
+
+	db.ConnectToMongoDB()
 
 	// https://github.com/ti-bone/feedbackBot/blob/main/src/Main.go
 
@@ -37,6 +41,7 @@ func main() {
 	extensions := []extensions.BotExtension{
 		greeter.GetExtension(),
 		bayesAntispam.GetExtension(),
+		kikVote.GetExtension(),
 	}
 
 	var commands []telebot.Command

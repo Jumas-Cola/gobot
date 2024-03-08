@@ -2,19 +2,20 @@ FROM golang:alpine AS builder
 
 WORKDIR /build
 
-ADD go.mod .
+ADD go.mod go.sum .
 
-COPY . .
+COPY ./src ./src
 
-RUN go build -o ./app/go-telegram-antispam
+WORKDIR /build/src
+
+RUN go build -o ./app/gobot
 
 FROM alpine
 
 WORKDIR /home/app
 
-COPY --from=builder /build/app/go-telegram-antispam /home/app/go-telegram-antispam
-COPY hamspam.db /home/app/hamspam.db
+COPY --from=builder /build/src/app/gobot /home/app/gobot
+COPY hamspam.db /home/hamspam.db
 COPY .env /home/app/.env
 
-
-CMD ["./go-telegram-antispam"]
+CMD ["./gobot"]
